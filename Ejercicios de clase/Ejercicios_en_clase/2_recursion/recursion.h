@@ -100,24 +100,57 @@ bool find_rec(int arr[], int low, int high, int val) {
 	return find_rec(arr, low + 1, high, val);
 }
 
-int max_seq(int arr[], int size) {
-	return 0;
+int max_seq(int arr[], int size) { //O(n)
+	int result = arr[0]; //O(1)
+	for (int i = 1; i < size; i++) { //O(n)
+		if (arr[i] > result) { //O(1)
+			result = arr[i];  //O(1)
+		}
+	}
+	return result; //O(1)
 }
 
 int max_rec(int arr[], int low, int high) {
+	if (low == high) {
+		return arr[low];
+	}
+
+	if (arr[low] > arr[high]) {
+		return max_rec(arr, low, high - 1);
+	} else {
+		return max_rec(arr, low + 1, high);
+	}
+
 	return 0;
 }
 
 int unimodal_seq(int arr[], int size) {
-	return 0;
+	int result = 0;
+	int valor_max = arr[0];
+	for (int i = 1; i < size; i++) {
+		if (arr[i] > valor_max) {
+			valor_max = arr[i];
+			result = i;
+		}
+	}
+	return result;
 }
 
 int unimodal_rec(int arr[], int low, int high) {
+	if (low == high) {
+		return low;
+	}
+
+	if (arr[low] > arr[high]) {
+		return unimodal_rec(arr, low, high - 1);
+	} else {
+		return unimodal_rec(arr, low + 1, high);
+	}
 	return 0;
 }
 
 int unimodal_rec(int arr[], int size) {
-	return 0;
+	return unimodal_rec(arr, 0, size - 1);
 }
 
 #endif /* RECURSION_H_ */
