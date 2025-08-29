@@ -40,4 +40,6 @@ int main(int argc, char* argv[]) {
 
 	cout << "\n" << i++ <<".- respuesta esperada " << 1 << " programa " << fun.sumaDirecta(1) << "\n";
 	cout << " " << ((1 == fun.sumaDirecta(1)) ? "success\n" : "fail\n");
+
+	
 }
