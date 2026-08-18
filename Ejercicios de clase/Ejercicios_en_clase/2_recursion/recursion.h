@@ -98,20 +98,32 @@ bool find_seq(int arr[], int size, int val) { // O(n)
 	return false; // O(1)
 }
 
-bool find_rec(int arr[], int low, int high, int val) {
+bool find_rec(int arr[], int low, int high, int val) { // O(n)
+	if (arr[low] == val || arr[high] == val) { // O(1)
+		return true; // O(1)
+	}
 	
+	if (low > high) { // O(1)
+		return false; // O(1)
+	}
 	
-	return 0;
+	return find_rec(arr, low + 1, high - 1, val); // O(n)
 }
 
-int max_seq(int arr[], int size) { 
-	
-	return 0; 
+int max_seq(int arr[], int size) { // O(n)
+	int max = arr[0]; // O(1)
+	for (int i = 0; i < size; i++) { // O(n)
+		if (arr[i] > max) { // O(1)
+			max = arr[i]; // O(1)
+		}
+	}
+
+	return max; // O(1)
 }
 
 int max_rec(int arr[], int low, int high) {
 	
-
+	
 	return 0;
 }
 
