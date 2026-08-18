@@ -123,8 +123,15 @@ int max_seq(int arr[], int size) { // O(n)
 
 int max_rec(int arr[], int low, int high) {
 	
-	
-	return 0;
+	if (low == high) {
+		return arr[low];
+	}
+
+	if (arr[low] > arr[high]) {
+		return max_rec(arr, low, high - 1);
+	} else {
+		return max_rec(arr, low + 1, high);
+	} 
 }
 
 int unimodal_seq(int arr[], int size) {
