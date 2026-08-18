@@ -53,7 +53,7 @@ public:
 		ASSERT_TRUE(gcd_rec(10, 22) == 2);
 		std::cout << "PASSED.\nTest 10...";
 
-		/* TEST 19 */
+		/* TEST 10 */
 		ASSERT_TRUE(gcd_rec(13, 23) == 1);
 		std::cout << "PASSED.\nTest 11...";
 
