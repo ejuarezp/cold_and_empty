@@ -134,18 +134,33 @@ int max_rec(int arr[], int low, int high) {
 	} 
 }
 
-int unimodal_seq(int arr[], int size) {
-	
-	return 0;
+int unimodal_seq(int arr[], int size) { // O(n)
+	int max = arr[0]; // O(1)
+	int posicion_maxima = 0; // O(1)
+	for (int i = 0; i < size; i++) { // O(n)
+		if (arr[i] > max) { // O(1)
+			max = arr[i]; // O(1)
+			posicion_maxima = i; // O(1)
+		}
+	}
+
+	return posicion_maxima; // O(1)
 }
 
-int unimodal_rec(int arr[], int low, int high) {
-	
-	return 0;
+int unimodal_rec(int arr[], int low, int high) { // O(n)
+	if (low == high) { // O(1)
+		return low; // O(1)
+	}
+
+	if (arr[low] > arr[high]) { // O(n)
+		return unimodal_rec(arr, low, high - 1); // O(n)
+	} else {
+		return unimodal_rec(arr, low + 1, high); // O(n)
+	} 
 }
 
-int unimodal_rec(int arr[], int size) {
-	return 0;
+int unimodal_rec(int arr[], int size) { // O(n)
+	return unimodal_rec(arr, 0, size - 1); // O(n)
 }
 
 #endif /* RECURSION_H_ */
