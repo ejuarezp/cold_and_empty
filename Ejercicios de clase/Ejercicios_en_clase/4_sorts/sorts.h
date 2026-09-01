@@ -2,7 +2,7 @@
  * sorts.h
  *
  *  Created on: 05/08/2015
- *      Author: pperezm
+ *      Author: pperezm, edjuarezp
  */
 
 #ifndef SORTS_H_
@@ -54,6 +54,17 @@ std::vector<T> Sorts<T>::bubbleSort(const std::vector<T> &source) {
 template <class T>
 std::vector<T> Sorts<T>::selectionSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+
+	for (int i = v.size() - 1; i >= 0; i--) {
+		int pos_mayor = 0;
+		for (int j = 0; j <= i; j++) {
+			if (v[j] > v[pos_mayor]) {
+				pos_mayor = j; 
+			}
+		}
+		swap(v, pos_mayor, i);
+	}
+
 	return v;
 }
 
