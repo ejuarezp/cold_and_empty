@@ -88,6 +88,17 @@ std::vector<T> Sorts<T>::insertionSort(const std::vector<T> &source) {
 template <class T>
 std::vector<T> Sorts<T>::shellSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+	int intervalo_size = v.size() / 2;
+	while (intervalo_size >= 1) {
+		for (int i = v.size() - intervalo_size; i > 0; i--) {
+			for (int j = 0; j < i; j++) {
+				if (v[j] > v[j + intervalo_size]) {
+					swap(v, j, j + intervalo_size);
+				}
+			}
+		}
+		intervalo_size = intervalo_size / 2;
+	}
 	return v;
 }
 
