@@ -77,6 +77,7 @@ public:
 		
 		/* TEST 5 */
 		v = sorts.mergeSort(source);
+		//std::cout << arrayToString(v).c_str() << std::endl;
 		ASSERT_TRUE(!strcmp("[1, 3, 4, 5, 8, 11, 21, 28, 52, 54, 58, 61, 64, 65, 75, 78, 84, 91, 92, 92]",
 				             arrayToString(v).c_str()));
 		

@@ -104,20 +104,69 @@ std::vector<T> Sorts<T>::shellSort(const std::vector<T> &source) {
 
 template <class T>
 void Sorts<T>::copyArray(std::vector<T> &A, std::vector<T> &B, int low, int high) {
+	
+	for (int i = low; i <= high; i++) {
+		A[i] = B[i];
+	}
 }
 
 template <class T>
 void Sorts<T>::mergeArray(std::vector<T> &A, std::vector<T> &B, int low, int mid, int high) {
+	
+	int i_izquierda = low;
+	int i_derecha = mid + 1;
+	int i_ordenando = low;
+
+	while (i_izquierda <= mid && i_derecha <= high) {
+		if (A[i_izquierda] <= A[i_derecha]) {
+			B[i_ordenando] = A[i_izquierda];
+			i_izquierda++;
+		} else {
+			B[i_ordenando] = A[i_derecha];
+			i_derecha++;
+		}
+		i_ordenando++;
+	}
+
+	while (i_izquierda <= mid) {
+		B[i_ordenando] = A[i_izquierda];
+		i_izquierda++;
+		i_ordenando++;
+	}
+
+	while (i_derecha <= high) {
+		B[i_ordenando] = A[i_derecha];
+		i_derecha++;
+		i_ordenando++;
+	}
+
+	copyArray(A, B, low, high);
+
 }
 
 template <class T>
 void Sorts<T>::mergeSplit(std::vector<T> &A, std::vector<T> &B, int low, int high) {
+	if (low < high) {
+
+		int mitad = (low + high) / 2;
+
+		//Ordenar la mitad izquierda del arreglo
+		mergeSplit(A, B, low, mitad);
+
+		//Ordenar la mitad derecha del arreglo
+		mergeSplit(A, B, mitad + 1, high);
+
+		//Mezclar en orden ambas mitades que ya están ordenadas
+		mergeArray(A, B, low, mitad, high);
+	}
 }
 
 template <class T>
 std::vector<T> Sorts<T>::mergeSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
 	std::vector<T> tmp(v.size());
+
+	mergeSplit(v, tmp, 0, v.size() - 1);
 
 	return v;
 }
