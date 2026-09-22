@@ -40,6 +40,7 @@ public:
 		std::cout << " PASSED\n Test 6...";
 
 		/* TEST 6 */
+		std::cout <<  "\n" << Rational(1,-2).toString().c_str() << std::endl;
 		ASSERT_TRUE(!strcmp("-1/2", Rational(1,-2).toString().c_str()));
 		std::cout << " PASSED\n Test 7...";
 

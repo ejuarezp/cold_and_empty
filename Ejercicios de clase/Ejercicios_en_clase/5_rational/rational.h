@@ -2,7 +2,7 @@
  * rational.h
  *
  *  Created on: 05/08/2015
- *      Author: pperezm
+ *      Author: pperezm, edjuarezp
  */
 
 #ifndef RATIONAL_H_
@@ -11,6 +11,7 @@
 #include "exception.h"
 #include <string>
 #include <sstream>
+#include <iostream>
 
 class Rational {
 private:
@@ -46,21 +47,27 @@ Rational::Rational(int num){
 }
 
 Rational::Rational(int num, int dem){
-    if (dem == 0){
-        numerator = 0;
-        denominator = 1;
-    }else{
+    if (dem == 0) {
+        throw RangeError();
+    } else {
         numerator = num;
         denominator = dem;
     }
+
+	normalize();
+
+	if (denominator < 0) {
+		numerator = numerator * -1;
+		denominator = denominator * -1;
+	}
 }
 
 int Rational::getNumerator() const {
-	return 0;
+	return numerator;
 }
 
 int Rational::getDenominator() const {
-	return 0;
+	return denominator;
 }
 
 std::string Rational::toString() const {
@@ -71,13 +78,18 @@ std::string Rational::toString() const {
 }
 
 void Rational::operator= (const Rational &right) {
+	numerator = right.getNumerator();
+	denominator = right.getDenominator();
 }
 
 void Rational::operator+= (const Rational &right) {
+	numerator = denominator * right.getNumerator() + right.getDenominator() * numerator;
+	denominator = denominator * right.getDenominator();
+	normalize();
 }
 
 Rational::operator double () const {
-	return 0.0;
+	return (double) numerator / (double) denominator;
 }
 
 int gcd(int a, int b) {
@@ -92,26 +104,35 @@ int gcd(int a, int b) {
 }
 
 void Rational::normalize() {
+	int valor_gcd = gcd(numerator, denominator);
+	numerator = numerator / valor_gcd;
+	denominator = denominator / valor_gcd;
 }
 
 Rational operator+ (const Rational &left, const Rational &right) {
-	return Rational();
+	return Rational(
+		left.getDenominator() * right.getNumerator() + right.getDenominator() * left.getNumerator(),
+		left.getDenominator() * right.getDenominator()
+	);
 }
 
 Rational operator- (const Rational &left, const Rational &right) {
-	return Rational();
+	return Rational(
+		right.getDenominator() * left.getNumerator() - left.getDenominator() * right.getNumerator(),
+		left.getDenominator() * right.getDenominator()
+	);
 }
 
 Rational operator- (const Rational &right) {
-	return Rational();
+	return Rational(-right.getNumerator(), right.getDenominator());
 }
 
 bool operator== (const Rational &left, const Rational &right) {
-	return false;
+	return (double) left == (double) right;
 }
 
 bool operator<  (const Rational &left, const Rational &right) {
-	return false;
+	return (double) left < (double) right;
 }
 
 #endif /* RATIONAL_H_ */
