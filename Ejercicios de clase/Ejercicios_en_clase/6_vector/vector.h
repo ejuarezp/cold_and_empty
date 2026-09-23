@@ -34,8 +34,9 @@ public:
 
 template <class T>
 Vector<T>::Vector(unsigned int numberOfElements)  {
-	if(numberOfElements == 0)
+	if(numberOfElements == 0) {
 		throw RangeError();
+	}
 	size = numberOfElements;
 	data = new T[size];
 	if(data == 0)
@@ -44,13 +45,16 @@ Vector<T>::Vector(unsigned int numberOfElements)  {
 
 template <class T>
 Vector<T>::Vector(unsigned int numberOfElements, T &initialValue)  {
-	if(numberOfElements == 0)
+	if(numberOfElements == 0) {
 		throw RangeError();
+	}
+	
 	size = numberOfElements;
 	data = new T[size];
-	if(data == 0)
+	if(data == NULL) {
 		throw OutOfMemory();
-	for(unsigned int i =0; i < size; i++){
+	}
+	for(unsigned int i = 0; i < size; i++){
 		data[i] = initialValue;
 	}
 }
@@ -59,9 +63,10 @@ template <class T>
 Vector<T>::Vector(const Vector<T> &source) {
 	size = source.size;
 	data = new T[size];
-	if(data == 0)
+	if(data == NULL) {
 		throw OutOfMemory();
-	for(unsigned int i=0; i<size; i++){
+	}
+	for(unsigned int i = 0; i < size; i++){
 		data[i] = source.data[i];
 	}
 }
@@ -69,7 +74,7 @@ Vector<T>::Vector(const Vector<T> &source) {
 template <class T>
 Vector<T>::~Vector() {
 	delete [] data;
-	data = 0;
+	data = NULL;
 	size = 0;
 }
 
@@ -80,11 +85,36 @@ unsigned int Vector<T>::length() const {
 
 template <class T>
 unsigned int Vector<T>::resize(unsigned int newSize)  {
-	return 0;
+	if (newSize == 0) {
+		throw RangeError();
+	}
+	//Crear un nuevo arreglo en memoria dinámica
+	T *temp = new T[newSize];
+
+	//Copiar el arreglo actual en el nuevo arreglo
+	if (size > newSize) {
+		for (int i = 0; i < newSize; i++) {
+			temp[i] = data[i];
+		}
+	} else {
+		for (int i = 0; i < size; i++) {
+			temp[i] = data[i];
+		}
+	}
+
+	//Liberar la memoria
+	delete [] data;
+	data = temp;
+	size = newSize;
+
+	return newSize;
 }
 
 template <class T>
 unsigned int Vector<T>::resize(unsigned int newSize, T &initValue)  {
+	if (newSize == 0) {
+		throw RangeError();
+	}
 	return 0;
 }
 
