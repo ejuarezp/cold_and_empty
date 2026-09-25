@@ -91,6 +91,11 @@ unsigned int Vector<T>::resize(unsigned int newSize)  {
 	//Crear un nuevo arreglo en memoria dinámica
 	T *temp = new T[newSize];
 
+	//Validar que haya memoria disponible en el sistema operativo
+	if (temp == NULL) {
+		throw OutOfMemory();
+	}
+
 	//Copiar el arreglo actual en el nuevo arreglo
 	if (size > newSize) {
 		for (int i = 0; i < newSize; i++) {
@@ -115,6 +120,39 @@ unsigned int Vector<T>::resize(unsigned int newSize, T &initValue)  {
 	if (newSize == 0) {
 		throw RangeError();
 	}
+
+	//Crear un nuevo arreglo en memoria dinámica
+	T *temp = new T[newSize];
+
+	//Validar que haya memoria disponible en el sistema operativo
+	if (temp == NULL) {
+		throw OutOfMemory();
+	}
+
+	//Copiar el arreglo actual en el nuevo arreglo
+	if (size > newSize) {
+		for (int i = 0; i < newSize; i++) {
+			temp[i] = data[i];
+		}
+	} else {
+		for (int i = 0; i < size; i++) {
+			temp[i] = data[i];
+		}
+	}
+
+	//Llenar las localidades nuevas con initValue
+	for (int i = size; i < newSize; i++) {
+		temp[i] = initValue;
+	}
+	
+	//Liberar la memoria
+	delete [] data;
+	data = temp;
+	size = newSize;
+
+	return newSize;
+
+
 	return 0;
 }
 
@@ -132,11 +170,18 @@ std::string Vector<T>::toString() const {
 
 template <class T>
 T& Vector<T>::operator[] (unsigned int index) const  {
-	return data[0];
+	if (index >= size) {
+		throw IndexOutOfBounds();
+	}
+	return data[index];
 }
 
 template <class T>
 void Vector<T>::operator=(const Vector<T> &right) {
+	resize(right.length());
+	for (int i = 0; i < size; i++) {
+		data[i] = right.data[i];
+	}
 }
 
 #endif /* VECTOR_H_ */
