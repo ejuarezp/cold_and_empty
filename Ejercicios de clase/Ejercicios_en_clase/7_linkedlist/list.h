@@ -30,13 +30,22 @@ private:
 };
 
 template <class T>
-Link<T>::Link(T val) {}
+Link<T>::Link(T val) {
+	value = val;
+	next = NULL;
+}
 
 template <class T>
-Link<T>::Link(T val, Link* nxt) {}
+Link<T>::Link(T val, Link* nxt) {
+	value = val;
+	next = nxt;
+}
 
 template <class T>
-Link<T>::Link(const Link<T> &source) {}
+Link<T>::Link(const Link<T> &source) {
+	value = source.value;
+	next = source.next;
+}
 
 template <class T>
 class List {
@@ -76,20 +85,27 @@ private:
 };
 
 template <class T>
-List<T>::List(){}
+List<T>::List(){
+	head = NULL;
+	size = 0;
+}
 
 template <class T>
 List<T>::~List() {
+	clear();
+	head = NULL;
+	size = 0;
 }
 
 template <class T>
 bool List<T>::empty() const {
-	return false;
+	return size == 0;
+	//alternativa: return head == NULL;
 }
 
 template <class T>
 int List<T>::length() const {
-	return 0;
+	return size;
 }
 
 template <class T>
@@ -104,6 +120,25 @@ T List<T>::getFirst() const  {
 
 template <class T>
 void List<T>::addFirst(T val)  {
+
+	//Crear el nuevo nodo
+	Link<T> * nuevo_nodo = new Link<T>(val);
+
+	//Validar que se creó el nuevo nodo
+	if (nuevo_nodo == NULL) {
+		throw OutOfMemory();
+	}
+
+	//Si la lista está vacía
+	if (empty()) {
+		head = nuevo_nodo;
+	//Si la lista no está vacía
+	} else {
+		nuevo_nodo->next = head;
+		head = nuevo_nodo;
+	}
+
+	size++;
 }
 
 template <class T>
