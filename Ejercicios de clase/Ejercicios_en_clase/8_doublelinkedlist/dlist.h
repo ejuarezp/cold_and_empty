@@ -80,7 +80,11 @@ private:
 };
 
 template <class T>
-DList<T>::DList() {}
+DList<T>::DList() {
+	head = NULL;
+	tail = NULL;
+	size = 0;
+}
 
 template <class T>
 DList<T>::~DList() {
@@ -89,7 +93,7 @@ DList<T>::~DList() {
 
 template <class T>
 bool DList<T>::empty() const {
-	return 0;
+	return size == 0;
 }
 
 template <class T>
@@ -121,15 +125,68 @@ T DList<T>::getFirst() const  {
 
 template <class T>
 void DList<T>::addFirst(T val)  {
+
+	DLink<T> * nuevo_nodo = new DLink<T>(val);
+
+	if (nuevo_nodo == NULL) {
+		throw OutOfMemory();
+	}
+
+	if (empty()) {
+		head = nuevo_nodo;
+		tail = nuevo_nodo;
+	} else {
+		head->previous = nuevo_nodo;
+		nuevo_nodo->next = head;
+		head = nuevo_nodo;
+	}
+
+	size++;
 }
 
 template <class T>
 void DList<T>::add(T val)  {
+	if (empty()) {
+		addFirst(val);
+	} else {
+		DLink<T> * nuevo_nodo = new DLink<T>(val);
+		if (nuevo_nodo == NULL) {
+			throw OutOfMemory();
+		}
+
+		nuevo_nodo->previous = tail;
+		tail->next = nuevo_nodo;
+		tail = nuevo_nodo;
+		size++;
+	}
+
 }
 
 template <class T>
 T DList<T>::removeFirst()  {
-	return 0;
+	//Caso 1: La lista está vacía
+	if(empty()) {
+		throw NoSuchElement();
+	}
+
+	DLink<T> * nodo_victima = head;
+	T result = nodo_victima->value;
+
+	//Caso 2: La lista tiene un elemento
+	if (head == tail) {
+		head = NULL;
+		tail = NULL;
+		size--;
+	//Caso 3: La lista tiene más de un elemento
+	} else {
+		head = head->next;
+		nodo_victima->next = NULL;
+		head->previous = NULL;
+		size--;
+	}
+
+	delete nodo_victima;
+	return result;
 }
 
 template <class T>
