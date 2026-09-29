@@ -115,7 +115,10 @@ bool List<T>::contains(T val) const {
 
 template <class T>
 T List<T>::getFirst() const  {
-	return 0;
+	if (empty()) {
+		throw NoSuchElement();
+	}
+	return head->value;
 }
 
 template <class T>
@@ -143,20 +146,70 @@ void List<T>::addFirst(T val)  {
 
 template <class T>
 void List<T>::add(T val)  {
+
+	//Si la lista está vacía, agrego al inicio
+	if (empty()) {
+		addFirst(val);
+	} else {
+
+		//Creo un nuevo nodo
+		Link<T> * nuevo_nodo = new Link<T>(val);
+
+		//Verifico que se haya podido crear en memoria
+		if (nuevo_nodo == NULL) {
+			throw OutOfMemory();
+		}
+
+		//Creo un apuntador para llegar al final de la lista
+		Link<T> * ultimo_nodo = head;
+
+		//Posiciono el ultimo_nodo al final de la lista
+		while (ultimo_nodo->next != NULL) {
+			ultimo_nodo = ultimo_nodo->next;
+		}
+
+		//Hago que el último nodo, apunte al nuevo nodo
+		ultimo_nodo->next = nuevo_nodo;
+		size++;
+	}
+
 }
 
 template <class T>
 T List<T>::removeFirst()  {
-	return 0;
+	if (empty()) {
+		throw NoSuchElement();
+	}
+
+	Link<T> * nodo_victima = head;
+	head = nodo_victima->next;
+	nodo_victima->next = NULL;
+	T result = nodo_victima->value;
+	delete nodo_victima;
+	size--;
+	return result;
 }
 
 template <class T>
 T List<T>::get(int index) const   {
-	return 0;
+	if (index < 0 || index >= size) {
+		throw IndexOutOfBounds();
+	}
+
+	Link<T> * nodo_actual = head;
+
+	for (int i = 0; i < index; i++) {
+		nodo_actual = nodo_actual->next;
+	}
+
+	return nodo_actual->value;
 }
 
 template <class T>
 void List<T>::clear() {
+	while (size != 0) {
+		removeFirst();
+	}
 }
 
 template <class T>
@@ -179,10 +232,27 @@ std::string List<T>::toString() const {
 
 template <class T>
 List<T>::List(const List<T> &source)  {
+
+	size = 0;
+	head = NULL;
+
+	//Crear un apuntador nodo_actual hacia el inicio de source
+	Link<T> * nodo_actual = source.head;
+
+	//Recorrer source con nodo_actual
+	while(nodo_actual != NULL) {
+		//Agregar al final de la nueva lista
+		add(nodo_actual->value);
+
+		//Avanzar nodo_actual al siguiente
+		nodo_actual = nodo_actual->next;
+	}
+
 }
 
 template <class T>
 void List<T>::operator=(const List<T> &source)  {
+
 }
 
 template <class T>

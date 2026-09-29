@@ -62,6 +62,7 @@ public:
 		std::cout << " PASSED.\nTest 9";
 
 		/* TEST 9 */
+		std::cout << " " << b1.getFirst() << std::endl;
 		ASSERT_TRUE(1 == b1.getFirst());
 		std::cout << " PASSED.\nTest 10";
 
