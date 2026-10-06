@@ -147,22 +147,28 @@ public:
 
 template <class T>
 void QueueList<T>::enqueue(T val) {
-    
+    data.push_back(val);
 }
 
 template <class T>
 T QueueList<T>::front() const  {
-	return T();
+	if (empty()) {
+		throw NoSuchElement();
+	}
+	return data.front();
 }
 
 template <class T>
 void QueueList<T>::dequeue()  {
-	
+	if (empty()) {
+		throw NoSuchElement();
+	}
+	data.pop_front();
 }
 
 template <class T>
 bool QueueList<T>::empty() const {
-    return false;
+    return data.empty();
 }
 
 template <class T>
