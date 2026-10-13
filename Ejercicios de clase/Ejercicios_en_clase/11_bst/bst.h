@@ -114,8 +114,6 @@ TreeNode<T>* TreeNode<T>::succesor() {
 			sucesor->left = NULL;
 
 			std::cout << "sucesor " << sucesor->value << std::endl;
-			std::cout << "sucesor->left " << sucesor->left << std::endl;
-			std::cout << "sucesor->right " << sucesor->right << std::endl;
 			return sucesor;
 		}
 	} else {
@@ -126,16 +124,13 @@ TreeNode<T>* TreeNode<T>::succesor() {
 
 template <class T>
 void TreeNode<T>::remove(T val) {
-	std::cout << "remove " << val << " buscando en " << value << std::endl;
 	if (val < value) {
 		if (left->value == val) {
-			std::cout << " encontrado " << std::endl;
 			if (left->left == NULL && left->right == NULL) {
 				delete left;
 				left = NULL;
 			} else {
 				TreeNode<T> * sucesor = left->succesor();
-				std::cout << "sucesor " << sucesor->value << std::endl;
 				sucesor->left = left->left;
 				sucesor->right = left->right;
 				delete left;
@@ -150,7 +145,7 @@ void TreeNode<T>::remove(T val) {
 				delete right;
 				right = NULL;
 			} else {
-				TreeNode<T> * sucesor = succesor();
+				TreeNode<T> * sucesor = right->succesor();
 				sucesor->left = right->left;
 				sucesor->right = right->right;
 				delete right;
