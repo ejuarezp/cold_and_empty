@@ -97,11 +97,69 @@ bool TreeNode<T>::find(T val) {
 
 template <class T>
 TreeNode<T>* TreeNode<T>::succesor() {
+	if (left != NULL) {
+		TreeNode<T>* sucesor = left;
+		if (left->right == NULL) {
+			left->left = sucesor->left; 
+			sucesor->left = NULL;
+			std::cout << "sucesor " << sucesor->value << std::endl;
+			return sucesor;
+		} else {			
+			TreeNode<T>* anterior = sucesor;
+			while (sucesor->right != NULL) {
+				anterior = sucesor;
+				sucesor = sucesor->right;
+			}
+			anterior->right = sucesor->left;
+			sucesor->left = NULL;
+
+			std::cout << "sucesor " << sucesor->value << std::endl;
+			std::cout << "sucesor->left " << sucesor->left << std::endl;
+			std::cout << "sucesor->right " << sucesor->right << std::endl;
+			return sucesor;
+		}
+	} else {
+		//TODO Si no hay mayor de los menores, elegir el menor de los mayores
+	}
 	return 0;
 }
 
 template <class T>
 void TreeNode<T>::remove(T val) {
+	std::cout << "remove " << val << " buscando en " << value << std::endl;
+	if (val < value) {
+		if (left->value == val) {
+			std::cout << " encontrado " << std::endl;
+			if (left->left == NULL && left->right == NULL) {
+				delete left;
+				left = NULL;
+			} else {
+				TreeNode<T> * sucesor = left->succesor();
+				std::cout << "sucesor " << sucesor->value << std::endl;
+				sucesor->left = left->left;
+				sucesor->right = left->right;
+				delete left;
+				left = sucesor;
+			}
+		} else {
+			left->remove(val);
+		}
+	} else {
+		if (right->value == val) {
+			if (right->left == NULL && right->right == NULL) {
+				delete right;
+				right = NULL;
+			} else {
+				TreeNode<T> * sucesor = succesor();
+				sucesor->left = right->left;
+				sucesor->right = right->right;
+				delete right;
+				right = sucesor;
+			}
+		} else {
+			right->remove(val);
+		}
+	}
 }
 
 template <class T>
@@ -180,6 +238,27 @@ void BST<T>::add(T val) {
 
 template <class T>
 void BST<T>::remove(T val) {
+	if (empty()) {
+		throw NoSuchElement();
+	}
+
+	if(!find(val)) {
+		throw NoSuchElement();
+	}
+
+	if(root->value == val) {
+		TreeNode<T> * sucesor = root->succesor();
+		if (sucesor != NULL) {
+			sucesor->right = root->right;
+			sucesor->left = root->left;
+		}
+		root->right = NULL;
+		root->left = NULL;
+		delete root;
+		root = sucesor;
+	} else {
+		root->remove(val);
+	}
 }
 
 template <class T>
