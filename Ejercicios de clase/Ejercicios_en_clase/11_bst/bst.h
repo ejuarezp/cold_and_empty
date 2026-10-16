@@ -117,7 +117,9 @@ TreeNode<T>* TreeNode<T>::succesor() {
 			return sucesor;
 		}
 	} else {
-		//TODO Si no hay mayor de los menores, elegir el menor de los mayores
+		if (right != NULL) {
+			return right;
+		}
 	}
 	return 0;
 }
@@ -159,6 +161,18 @@ void TreeNode<T>::remove(T val) {
 
 template <class T>
 void TreeNode<T>::removeChilds() {
+	
+	if (right != NULL) {
+		right->removeChilds();
+		delete right;
+		right = NULL;
+	}
+	
+	if (left != NULL) {
+		left->removeChilds();
+		delete left;
+		left = NULL;
+	}
 }
 
 template <class T>
@@ -258,6 +272,11 @@ void BST<T>::remove(T val) {
 
 template <class T>
 void BST<T>::removeAll() {
+	if (root != NULL) {
+		root->removeChilds();
+		delete root;
+		root = NULL;
+	}
 }
 
 template <class T>
