@@ -39,34 +39,45 @@ public:
 
 template <class T>
 Heap<T>::Heap(unsigned int sze)  {
+	data = new T[sze];
+	if (data == NULL) {
+		throw OutOfMemory();
+	}
+	size = sze;
+	count = 0;
 }
 
 template <class T>
 Heap<T>::~Heap() {
+	delete data;
+	data = NULL;
+	size = 0;
+	count = 0;
 }
 
 template <class T>
 bool Heap<T>::empty() const {
+	return count == 0;
 }
 
 template <class T>
 bool Heap<T>::full() const {
-	return false;
+	return count == size;
 }
 
 template <class T>
 unsigned int Heap<T>::parent(unsigned int pos) const {
-	return 0;
+	return (pos - 1) / 2;
 }
 
 template <class T>
 unsigned int Heap<T>::left(unsigned int pos) const {
-	return 0;
+	return 2 * pos + 1;
 }
 
 template <class T>
 unsigned int Heap<T>::right(unsigned int pos) const {
-	return 0;
+	return 2 * pos + 2;
 }
 
 template <class T>
@@ -78,21 +89,57 @@ void Heap<T>::swap(unsigned int i, unsigned int j) {
 
 template <class T>
 void Heap<T>::heapify(unsigned int pos) {
+	if (pos > 0) {
+		if (data[pos] < data[parent(pos)]) {
+			swap(pos, parent(pos));
+			heapify(parent(pos));
+		}
+	}
 }
 
 template <class T>
 void Heap<T>::add(T val)  {
+	if (full()) {
+		throw Overflow();
+	}
+	data[count] = val;
+	heapify(count);
+	count++;	
 }
 
 template <class T>
 T Heap<T>::remove()  {
-	T aux;
-
+	if (count == 0) {
+		throw NoSuchElement();
+	}
+	T aux = data[0];
+	count--;
+	data[0] = data[count];
+	
+	int pos = 0;
+	bool continuar = 1;
+	while(left(pos) < count && continuar) {
+		continuar = 0;
+		if (data[pos] > data[left(pos)]) {
+			swap(pos, left(pos));
+			pos = left(pos);
+			continuar = 1;
+		}
+		if (right(pos) < count) {
+			if (data[pos] > data[right(pos)]) {
+				swap(pos, right(pos));
+				pos = right(pos);
+				continuar = 1;
+			}
+		}
+	}
+	
 	return aux;
 }
 
 template <class T>
 void Heap<T>::clear() {
+	count = 0;
 }
 
 
