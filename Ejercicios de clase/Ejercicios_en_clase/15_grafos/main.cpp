@@ -51,17 +51,17 @@ int main(int argc, char* argv[]) {
     g.loadGraphMat("g.txt", 7, 7);
     star.loadGraphMat("star.txt", 5, 5);
 
-    //g.printAdjList()
+    g.printAdjList();
     g_ans ="vertex 0 : 1 4 vertex 1 : 0 2 3 vertex 2 : 1 vertex 3 : 1 6 vertex 4 : 0 5 vertex 5 : 4 vertex 6 : 3 ";
     cout << " 1 " <<	(!g_ans.compare(g.printAdjList()) ? "success\n" : "fail\n");
-  //  cout << " 1 " << g.printAdjList() << endl;
+    cout << " 1 " << g.printAdjList() << endl;
 
     //star.printAdjList()
     star_ans="vertex 0 : 1 2 3 4 vertex 1 : 0 2 3 4 vertex 2 : 0 1 3 4 vertex 3 : 0 1 2 4 vertex 4 : 0 1 2 3 ";
     cout << " 2 " <<	(!star_ans.compare(star.printAdjList()) ? "success\n" : "fail\n");
   //  cout << " 2 " << star.printAdjList() << endl;
 
-    //g.printAdjMat()
+    cout << g.printAdjMat() << endl;
     g_ans = "0 1 0 0 1 0 0 1 0 1 1 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 ";
     cout << " 3 " <<	(!g_ans.compare(g.printAdjMat()) ? "success\n" : "fail\n");
     //cout << " 3 " << g.printAdjMat() << endl;

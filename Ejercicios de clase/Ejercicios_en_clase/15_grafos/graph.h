@@ -171,17 +171,22 @@ string Graph::printAdjMat_clean(){
 }
 
 string Graph::DFS(int start, int goal){
-
-		return "";
+	stack<int> pila;
+	list<int> visitados;
+	vector <vector<int>> caminos(nodes, vector<int>(1, -1));
+	pila.push(start);
+	string result = "visited: " + depthHelper(start, goal, pila, visitados, caminos);
+	result = result + print_path(caminos, start, goal);
+	return result;
 }
 
 string Graph::depthHelper(int current,
-															int goal,
-															stack<int> &st,
-															list<int> &visited,
-															vector<vector<int>> &paths){
-
-			return " node not found";
+							int goal,
+							stack<int> &st,
+							list<int> &visited,
+							vector<vector<int>> &paths){
+	
+	return " node not found";
 }
 
 string Graph::BFS(int start, int goal){
@@ -218,20 +223,20 @@ string Graph::print_visited(list<int> q){
 }
 
 string Graph::print_path(vector<vector <int>> &path, int start, int goal){
-	int node =  path[goal][0];
+	int node = path[goal][0];
 	stack<int> reverse;
 	reverse.push(goal);
 	stringstream aux;
 	aux  << "path:";
 	while (node != start) {
 		reverse.push(node);
-    node = path[node][0];
-  }
+    	node = path[node][0];
+  	}
 	reverse.push(start);
 	while (!reverse.empty()) {
 		aux << " " << reverse.top() ;
 		reverse.pop();
-  }
+  	}
 	return aux.str();
 }
 #endif /* Graph_H_ */
