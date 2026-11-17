@@ -209,7 +209,7 @@ string Graph::BFS(int start, int goal){
 	queue<int> fila;
 	list<int> visitados;
 	vector <vector<int>> caminos(nodes, vector<int>(1, -1));
-	fila.enqueue(start);
+	fila.push(start);
 	string result = "visited: " + to_string(start) + " " + breadthHelper(start, goal, fila, visitados, caminos);
 	result = result + print_path(caminos, start, goal);
 	return result;
@@ -226,15 +226,18 @@ string Graph::breadthHelper(int current,
 		if (current == goal) {
 			return "";
 		} else {
-			qu.dequeue();
+			qu.pop();
 			for (int i = 0; i < nodes; i++) {
 				if (adjMatrix[current*nodes + i] == 1 && !contains(visited,i)) {
-					qu.enqueue(i);
-					paths[i][0] = current;
+					qu.push(i);
+					if (paths[i][0] == -1) {
+						paths[i][0] = current;
+					}
+					//std::cout << "path: " << i << " <-- " << current << std::endl;
 				}
 			}
 			current = qu.front();
-			return to_string(current) + " " + depthHelper(current, goal, qu, visited, paths);
+			return to_string(current) + " " + breadthHelper(current, goal, qu, visited, paths);
 		}
 	} else {
 		return " node not found";

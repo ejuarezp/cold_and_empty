@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
     g_ans_2 = "visited: 0 4 1 5 3 path: 0 1 3";
     cout << " 7 " <<	(( !g_ans.compare(g.BFS(0,3)) || !g_ans_2.compare(g.BFS(0,3))) ? "success\n" : "fail\n");
 
-    //star.BFS(0,3);
+    //cout << star.BFS(0,3) << endl;
     star_ans = "visited: 0 1 2 3 path: 0 3";
     star_ans_2 = "visited: 0 4 3 path: 0 3";
     cout << " 8 " <<	((!star_ans.compare(star.BFS(0,3)) || !star_ans_2.compare(star.BFS(0,3))) ? "success\n" : "fail\n");
