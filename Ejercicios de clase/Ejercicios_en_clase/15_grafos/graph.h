@@ -175,7 +175,7 @@ string Graph::DFS(int start, int goal){
 	list<int> visitados;
 	vector <vector<int>> caminos(nodes, vector<int>(1, -1));
 	pila.push(start);
-	string result = "visited: " + depthHelper(start, goal, pila, visitados, caminos);
+	string result = "visited: " + to_string(start) + " " + depthHelper(start, goal, pila, visitados, caminos);
 	result = result + print_path(caminos, start, goal);
 	return result;
 }
@@ -185,8 +185,27 @@ string Graph::depthHelper(int current,
 							stack<int> &st,
 							list<int> &visited,
 							vector<vector<int>> &paths){
-	
-	return " node not found";
+	if (!st.empty()) {
+		//std::cout << "current: " << current << std::endl;
+		visited.push_front(current);
+		//paths[current][0] = st.top();
+		if (current == goal) {
+			return "";
+		} else {
+			st.pop();
+			for (int i = 0; i < nodes; i++) {
+				if (adjMatrix[current*nodes + i] == 1 && !contains(visited,i)) {
+					st.push(i);
+					paths[i][0] = current;
+					//std::cout << "push: " << i << std::endl;
+				}
+			}
+			current = st.top();
+			return to_string(current) + " " + depthHelper(current, goal, st, visited, paths);
+		}
+	} else {
+		return " node not found";
+	}
 }
 
 string Graph::BFS(int start, int goal){

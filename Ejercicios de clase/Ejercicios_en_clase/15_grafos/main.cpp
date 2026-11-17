@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     //cout << " 4 " << star.printAdjMat() << endl;
 
 
-    //g.DFS(0,3);
+    cout << g.DFS(0,3) << endl;
     g_ans = "visited: 0 4 5 1 3 path: 0 1 3";
     g_ans_2 = "visited: 0 1 2 3 path: 0 1 3";
     cout << " 5 " <<	( (!g_ans.compare(g.DFS(0,3)) || !g_ans_2.compare(g.DFS(0,3))) ? "success\n" : "fail\n");
