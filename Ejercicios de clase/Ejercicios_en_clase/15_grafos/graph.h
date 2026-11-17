@@ -186,9 +186,7 @@ string Graph::depthHelper(int current,
 							list<int> &visited,
 							vector<vector<int>> &paths){
 	if (!st.empty()) {
-		//std::cout << "current: " << current << std::endl;
 		visited.push_front(current);
-		//paths[current][0] = st.top();
 		if (current == goal) {
 			return "";
 		} else {
@@ -197,7 +195,6 @@ string Graph::depthHelper(int current,
 				if (adjMatrix[current*nodes + i] == 1 && !contains(visited,i)) {
 					st.push(i);
 					paths[i][0] = current;
-					//std::cout << "push: " << i << std::endl;
 				}
 			}
 			current = st.top();
@@ -209,7 +206,13 @@ string Graph::depthHelper(int current,
 }
 
 string Graph::BFS(int start, int goal){
-		return "";
+	queue<int> fila;
+	list<int> visitados;
+	vector <vector<int>> caminos(nodes, vector<int>(1, -1));
+	fila.enqueue(start);
+	string result = "visited: " + to_string(start) + " " + breadthHelper(start, goal, fila, visitados, caminos);
+	result = result + print_path(caminos, start, goal);
+	return result;
 }
 
 string Graph::breadthHelper(int current,
@@ -218,7 +221,24 @@ string Graph::breadthHelper(int current,
 															list<int> &visited,
 															vector<vector<int>> &paths){
 
-			return " node not found";
+	if (!qu.empty()) {
+		visited.push_front(current);
+		if (current == goal) {
+			return "";
+		} else {
+			qu.dequeue();
+			for (int i = 0; i < nodes; i++) {
+				if (adjMatrix[current*nodes + i] == 1 && !contains(visited,i)) {
+					qu.enqueue(i);
+					paths[i][0] = current;
+				}
+			}
+			current = qu.front();
+			return to_string(current) + " " + depthHelper(current, goal, qu, visited, paths);
+		}
+	} else {
+		return " node not found";
+	}
 }
 
 
